@@ -1,0 +1,29 @@
+---
+- name: Playbook 과 Jenkins를 이용한 CICD
+  hosts: master
+  become: true
+  tasks:
+    - name: /home/user1/project 디렉토리 생성
+      file:
+        path: /home/user1/project
+        state: directory
+        owner: user1
+        group: user1
+        mode: '0755'
+      
+    - name: Master에게 yml file 복사
+      copy:
+        src: deployment.yml
+        dest: /home/user1/project/deployment.yml
+        owner: user1
+        group: user1
+        mode: '0664'
+        
+    - name: Kubernetes deployment 배포
+      command: kubectl apply -f /home/user1/project/deployment.yml
+      register: result
+      ignore_errors: true
+
+    - name: 배포 결과 확인
+      debug:
+        msg: "{{ result.stdout }}"
