@@ -2,9 +2,9 @@
 - name: Playbook 과 Jenkins를 이용한 CICD
   hosts: master
   remote_user: root
-  become: true  # 권한 상승
-  become_method: sudo  # sudo를 권한 상승 방법으로 설정
-  become_user: root  # root 사용자로 권한 상승
+  become: true
+  become_method: sudo
+  become_user: root
   tasks:
     - name: /home/user1/project 디렉토리 생성
       file:
@@ -24,6 +24,9 @@
 
     - name: Kubernetes deployment 배포
       command: kubectl apply -f /home/user1/project/deployment.yml
+      become: true
+      become_method: sudo
+      become_user: root
       register: result
       ignore_errors: true
 
