@@ -22,17 +22,17 @@ spec:
         ports:
         - containerPort: 80
       imagePullSecrets:
-        - name: harbor-registry
+        - name: harbor-registry  # Harbor 레지스트리 인증 시크릿 이름
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx-svc
 spec:
-  type: NodePort  # NodePort 타입 추가 (외부에서 접근 가능하게 설정)
+  type: NodePort
   selector:
     app: nginx
   ports:
   - port: 80
     targetPort: 80
-    nodePort: 30080  # 원하는 NodePort 번호 설정 가능
+    nodePort: 30080  # 외부에서 접근할 포트

@@ -1,7 +1,10 @@
 ---
 - name: Playbook 과 Jenkins를 이용한 CICD
   hosts: master
-  become: true
+  remote_user: root
+  become: true  # 권한 상승
+  become_method: sudo  # sudo를 권한 상승 방법으로 설정
+  become_user: root  # root 사용자로 권한 상승
   tasks:
     - name: /home/user1/project 디렉토리 생성
       file:
@@ -10,7 +13,7 @@
         owner: user1
         group: user1
         mode: '0755'
-      
+
     - name: Master에게 yml file 복사
       copy:
         src: deployment.yml
@@ -18,7 +21,7 @@
         owner: user1
         group: user1
         mode: '0664'
-        
+
     - name: Kubernetes deployment 배포
       command: kubectl apply -f /home/user1/project/deployment.yml
       register: result
