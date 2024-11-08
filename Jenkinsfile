@@ -17,7 +17,7 @@ pipeline {
         stage('앤서블로 실행') {
             steps {
                 sh '''
-                ansible-playbook playbook.yml
+                ansible-playbook -i /root/pro1/hosts playbook.yml
                 '''
             }
         }
